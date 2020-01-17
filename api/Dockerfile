@@ -7,11 +7,10 @@ COPY *.csproj ./
 RUN dotnet restore
 
 # Copy everything else and build
-COPY . ./
-
+COPY . .
 RUN dotnet publish -c Debug -o build
 
 EXPOSE 5001
 EXPOSE 5000
 
-CMD ["dotnet", "build/dashboard.dll"]
+ENTRYPOINT [ "dotnet", "build/area.dll" ]
