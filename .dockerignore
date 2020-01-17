@@ -1,4 +1,4 @@
 Dockerfile
-app/bin
-app/obj
-app/.sonarqube
+api/bin
+api/obj
+api/.sonarqube
