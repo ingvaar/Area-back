@@ -1,5 +1,6 @@
 using System.Text;
 
+using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +56,7 @@ namespace area
 			});
 
 			services.AddSwaggerGen(c => {
-				c.SwaggerDoc("v1", new Info { Title = "Area", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Area", Version = "v1" });
 			});
 		}
 
