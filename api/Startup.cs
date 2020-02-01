@@ -39,6 +39,7 @@ namespace area
 			var appSettings = appSettingsSection.Get<AppSettings>();
 			var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
+			services.AddMvc();
 			services.AddCors();
 
 			services.AddAuthentication(x => {
