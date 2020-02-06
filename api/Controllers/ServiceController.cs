@@ -9,6 +9,7 @@ using area.Contexts;
 using area.Helpers;
 using area.Models;
 using area.Repositories;
+using area.Repositories.User;
 
 namespace area.Controllers
 {
@@ -22,7 +23,7 @@ namespace area.Controllers
 		public ServiceController(AreaContext context, IOptions<AppSettings> appSettings)
 		{
 			service = new ServiceRepository(context, appSettings);
-			user = new UserRepository(context, appSettings);
+			user = new UserRepository(context);
 		}
 
 		// GET service
