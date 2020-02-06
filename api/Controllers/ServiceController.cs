@@ -1,15 +1,12 @@
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
+using area.Business.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
 using area.Configuration;
 using area.Contexts;
-using area.Helpers;
-using area.Models;
-using area.Repositories;
-using area.Repositories.User;
 
 namespace area.Controllers
 {
@@ -17,27 +14,20 @@ namespace area.Controllers
 	[Route("/service")]
 	public class ServiceController : Controller
 	{
-		private readonly IServiceRepository service;
-		private readonly IUserRepository user;
+		private readonly IServiceBusinessLogic _service;
 
 		public ServiceController(AreaContext context, IOptions<AppSettings> appSettings)
 		{
-			service = new ServiceRepository(context, appSettings);
-			user = new UserRepository(context);
+			_service = new ServiceBusinessLogic(context);
 		}
 
 		// GET service
+		[AllowAnonymous]
 		[HttpGet]
 		public ActionResult<IEnumerable<string>> Get([FromQuery] int offset,
 													[FromQuery] int limit)
 		{
-			var currentUser = user.GetCurrentUser(User);
-			if (currentUser == null)
-				return Unauthorized("Bad token.");
-
-			(offset, limit) = RangeHelper.CheckRange(offset, limit, 20);
-
-			return Ok(service.GetServices(offset, limit, currentUser.Id));
+			return Ok(_service.GetServices(offset, limit));
 		}
 
 		// GET service/search
@@ -45,22 +35,17 @@ namespace area.Controllers
 		[HttpGet("search")]
 		public ActionResult<IEnumerable<string>> Search([FromQuery] int offset,
 														[FromQuery] int limit,
-														[FromQuery] int id)
+														[Required][FromQuery] string name)
 		{
-			(offset, limit) = RangeHelper.CheckRange(offset, limit, 20);
-
-			return Ok(service.GetServices(offset, limit, id));
+			return Ok(_service.SearchServiceByName(name, offset, limit));
 		}
 
 		// GET service/{id}
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public ActionResult<IEnumerable<string>> GetById(int id)
 		{
-			var currentUser = user.GetCurrentUser(User);
-			if (currentUser == null)
-				return Unauthorized("Bad token.");
-
-			return Ok(service.GetServiceById(id));
+			return Ok(_service.GetServiceById(id));
 		}
 	}
 }

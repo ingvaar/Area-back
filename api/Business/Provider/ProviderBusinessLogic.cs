@@ -13,6 +13,7 @@ namespace area.Business.Provider
 		{
 			_repository = new ProviderRepository(context);
         }
+		
         public ProviderModel[] GetProviders(int offset, int limit)
         {
 			(offset, limit) = RangeHelper.CheckRange(offset, limit, 20);
