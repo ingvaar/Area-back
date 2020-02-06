@@ -1,16 +1,13 @@
 using System;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Collections.Generic;
-
-using Microsoft.Extensions.Options;
-
+using System.Linq;
+using System.Text.Json;
 using area.Configuration;
 using area.Contexts;
-using area.Models;
+using area.Models.About;
+using Microsoft.Extensions.Options;
 
-namespace area.Repositories
+namespace area.Repositories.About
 {
 	public class AboutRepository : IAboutRepository
 	{

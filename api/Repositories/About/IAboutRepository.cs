@@ -1,4 +1,4 @@
-namespace area.Repositories
+namespace area.Repositories.About
 {
 	public interface IAboutRepository
 	{

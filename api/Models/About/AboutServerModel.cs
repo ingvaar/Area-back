@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace area.Models
+namespace area.Models.About
 {
-	public partial class AboutServerModel
+	public class AboutServerModel
 	{
 		[JsonPropertyName("current_time")]
 		public int CurrentTime { get; set; }

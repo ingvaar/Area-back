@@ -34,6 +34,12 @@ namespace area.Repositories.Service
 				.Take(limit)
 				.ToArray();
 		}
+
+		public ServiceModel[] GetAllServices()
+		{
+			return _context.Service.OrderBy(p => p.Id)
+				.ToArray();
+		}
 	}
 }
 
