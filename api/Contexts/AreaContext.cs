@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
 using area.Models;
+using area.Models.Provider;
+using area.Models.Service;
 
 namespace area.Contexts
 {
@@ -16,8 +18,8 @@ namespace area.Contexts
 		}
 
 		public virtual DbSet<UserModel> User { get; set; }
-		public virtual DbSet<AccountModel> Account { get; set; }
 		public virtual DbSet<ProviderModel> Provider { get; set; }
+		public virtual DbSet<ServiceModel> Service { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -71,40 +73,6 @@ namespace area.Contexts
 					.HasDefaultValueSql("''");
 			});
 
-			modelBuilder.Entity<AccountModel>(entity =>
-			{
-				entity.ToTable("account", "area");
-
-				entity.HasKey(e => e.Id);
-
-				entity.Property(e => e.Id)
-					.HasColumnName("id")
-					.HasColumnType("int(10) unsigned");
-
-				entity.Property(e => e.Token)
-					.IsRequired()
-					.HasColumnName("token")
-					.HasMaxLength(100)
-					.IsUnicode(false)
-					.HasDefaultValueSql("''");
-
-				entity.Property(e => e.ProvId)
-					.IsRequired()
-					.HasColumnName("prov_id")
-					.HasColumnType("int(10) unsigned")
-					.HasDefaultValueSql("0");
-
-				entity.Property(e => e.UserId)
-					.IsRequired()
-					.HasColumnName("user_id")
-					.HasColumnType("int(10) unsigned")
-					.HasDefaultValueSql("0");
-
-				entity.Property(e => e.LastUpdated)
-					.HasColumnName("last_updated")
-					.HasDefaultValueSql("current_timestamp()");
-			});
-
 			modelBuilder.Entity<ProviderModel>(entity =>
 			{
 				entity.ToTable("provider", "area");
@@ -132,6 +100,34 @@ namespace area.Contexts
 					.HasMaxLength(100)
 					.IsUnicode(false)
 					.HasDefaultValueSql("''");
+			});
+			
+			modelBuilder.Entity<ServiceModel>(entity =>
+			{
+				entity.ToTable("service", "area");
+
+				entity.HasKey(e => e.Id);
+
+				entity.HasIndex(e => new { e.Name })
+					.HasName("name")
+					.IsUnique();
+
+				entity.Property(e => e.Id)
+					.HasColumnName("id")
+					.HasColumnType("int(10) unsigned");
+
+				entity.Property(e => e.Name)
+					.IsRequired()
+					.HasColumnName("name")
+					.HasMaxLength(100)
+					.IsUnicode(false)
+					.HasDefaultValueSql("''");
+
+				entity.Property(e => e.ProvId)
+					.IsRequired()
+					.HasColumnName("prov_id")
+					.HasColumnType("int(10) unsigned")
+					.HasDefaultValueSql("0");
 			});
 		}
 	}

@@ -1,28 +1,16 @@
-using System;
 using System.Linq;
-using System.Text;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Options;
-
-using area.Configuration;
 using area.Contexts;
 using area.Models;
-using area.Entities;
 
-namespace area.Repositories
+namespace area.Repositories.User
 {
 	public class UserRepository : IUserRepository
 	{
-		private AreaContext _context;
-		private readonly AppSettings _appSettings;
+		private readonly AreaContext _context;
 
-		public UserRepository(AreaContext context, IOptions<AppSettings> appSettings)
+		public UserRepository(AreaContext context)
 		{
 			_context = context;
-			_appSettings = appSettings.Value;
 		}
 
 		public UserPublicModel[] GetUsers(int offset, int limit)
@@ -39,158 +27,90 @@ namespace area.Repositories
 				.ToArray();
 		}
 
-		public UserPublicModel GetUserById(int id)
+		public UserModel GetUserById(int id)
 		{
-			var user = _context.User.SingleOrDefault(a => a.Id == id);
-			var publicUser = new UserPublicModel();
-
-			if (user == null) {
-				return null;
-			}
-			publicUser.Id = user.Id;
-			publicUser.Username = user.Username;
-			publicUser.Email = user.Email;
-			publicUser.Date = user.Date;
-			return publicUser;
+			return _context.User.SingleOrDefault(a => a.Id == id);
 		}
 
-		public int UpdateUserById(int id, UserUpdateModel updatedUser, int userId)
+		public int UpdateUser(UserUpdateModel updatedUser, UserModel target)
 		{
-			int updateSuccess = 0;
-			var target = _context.User.SingleOrDefault(a => a.Id == id);
-
-			if (target == null)
-				return 2;
-			else if (updatedUser == null)
-				return 0;
-
-			if (updatedUser.Username == null)
-				updatedUser.Username = target.Username;
-			if (updatedUser.Password == null)
-				updatedUser.Password = target.Password;
-			if (updatedUser.Email == null)
-				updatedUser.Email = target.Email;
-
-			if (target.Id == userId) {
-				_context.Entry(target).CurrentValues.SetValues(updatedUser);
-				updateSuccess =_context.SaveChanges();
-			}
-			return updateSuccess;
+			_context.Entry(target).CurrentValues.SetValues(updatedUser);
+			return _context.SaveChanges();
 		}
 
-		public UserPublicModel AddNewUser(UserCreationModel newUser)
+		public int AddNewUser(UserModel user)
 		{
-			var user = new UserModel();
-
-			user.Email = newUser.Email;
-			user.Password = newUser.Password;
-			user.Username = newUser.Username;
-			try {
-				_context.User.Add(user);
-				_context.SaveChanges();
-				return _context.User
-					.Select(p => new UserPublicModel {
-						Id = p.Id,
-						Username = p.Username,
-						Email = p.Email,
-						Date = p.Date
-					})
-					.SingleOrDefault(p => p.Username == newUser.Username);
-			} catch(Exception) {
-				return null;
-			}
+			_context.User.Add(user);
+			return _context.SaveChanges();
 		}
 
-		public int DeleteUserById(int id, int userId)
+		public int DeleteUser(UserModel user)
 		{
-			if (id < 0)
-				return 0;
-
-			var user = _context.User.SingleOrDefault(a => a.Id == id);
-
-			if (user == null)
-				return 0;
-			if (user != null && user.Id != userId)
-				return 2;
 			_context.User.Remove(user);
 			return _context.SaveChanges();
 		}
 
-		public UserEntity Authenticate(UserAuthModel authUser)
+		public UserModel GetUserByCredentials(string username, string password)
 		{
-			var user = _context.User
-				.SingleOrDefault(x => x.Username == authUser.Username
-								&& x.Password == authUser.Password);
+			return _context.User
+				.SingleOrDefault(x => x.Username == username
+								&& x.Password == password);
+		}
 
-			if (user == null)
-				return null;
+		public UserPublicModel[] SearchUserByUsername(string username, int offset, int limit)
+		{
+			return _context.User.OrderBy(p => p.Id)
+				.Select(p => new UserPublicModel {
+						Id = p.Id,
+						Username = p.Username,
+						Email = p.Email,
+						Date = p.Date
+					})
+				.Where(p => p.Username.Contains(username))
+				.Skip(offset)
+				.Take(limit)
+				.ToArray();
+		}
 
-			var userEntity = new UserEntity();
+		public UserPublicModel[] SearchUserByEmail(string email, int offset, int limit)
+		{
+			return _context.User.OrderBy(p => p.Id)
+				.Select(p => new UserPublicModel {
+						Id = p.Id,
+						Username = p.Username,
+						Email = p.Email,
+						Date = p.Date
+					})
+				.Where(p => p.Email.Contains(email))
+				.Skip(offset)
+				.Take(limit)
+				.ToArray();
+		}
 
-			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-
-			var tokenDescriptor = new SecurityTokenDescriptor
-			{
-				Subject = new ClaimsIdentity(new Claim[]
+		public UserPublicModel GetUserByUsername(string username)
+		{
+			return _context.User
+				.Select(p => new UserPublicModel
 				{
-					new Claim(ClaimTypes.Name, user.Id.ToString()),
-					new Claim("Username", user.Username),
-					new Claim(JwtRegisteredClaimNames.Email, user.Email),
-					new Claim("DateOfJoin", user.Date.ToString("yyyy-MM-dd hh:mm:ss")),
-				}),
-				Expires = DateTime.UtcNow.AddDays(7),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-			};
-			var token = tokenHandler.CreateToken(tokenDescriptor);
-			userEntity.Token = tokenHandler.WriteToken(token);
-			userEntity.Username = user.Username;
-			userEntity.Id = user.Id;
-			userEntity.Email= user.Email;
-
-			return userEntity;
+					Id = p.Id,
+					Username = p.Username,
+					Email = p.Email,
+					Date = p.Date
+				})
+				.FirstOrDefault(p => p.Username.Contains(username));
 		}
 
-		public UserPublicModel GetCurrentUser(ClaimsPrincipal user)
-		{
-			var currentUser = new UserPublicModel();
-
-			currentUser.Id = int.Parse(user.FindFirst(ClaimTypes.Name)?.Value);
-			currentUser.Username = user.FindFirst("Username")?.Value;
-			currentUser.Email = user.FindFirst(ClaimTypes.Email)?.Value;
-			currentUser.Date = DateTimeOffset.Parse(user.FindFirst("DateOfJoin")?.Value);
-
-			return currentUser;
-		}
-
-		public UserPublicModel[] GetUserByUsername(string username, int offset, int limit)
+		public UserPublicModel GetUserByEmail(string email)
 		{
 			return _context.User
-				.Select(p => new UserPublicModel {
-						Id = p.Id,
-						Username = p.Username,
-						Email = p.Email,
-						Date = p.Date
-					})
-				.Where(i => i.Username.Contains(username))
-				.Skip(offset)
-				.Take(limit)
-				.ToArray();
-		}
-
-		public UserPublicModel[] GetUserByEmail(string email, int offset, int limit)
-		{
-			return _context.User
-				.Select(p => new UserPublicModel {
-						Id = p.Id,
-						Username = p.Username,
-						Email = p.Email,
-						Date = p.Date
-					})
-				.Where(i => i.Email.Contains(email))
-				.Skip(offset)
-				.Take(limit)
-				.ToArray();
+				.Select(p => new UserPublicModel
+				{
+					Id = p.Id,
+					Username = p.Username,
+					Email = p.Email,
+					Date = p.Date
+				})
+				.FirstOrDefault(i => i.Email.Contains(email));
 		}
 	}
 }

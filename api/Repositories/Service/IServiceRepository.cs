@@ -1,13 +1,12 @@
-using area.Models;
+using area.Models.Service;
 
-namespace area.Repositories
+namespace area.Repositories.Service
 {
 	public interface IServiceRepository
 	{
-		AccountModel AddNewService(AccountCreationModel newProv, int userId);
-		int DeleteServiceById(int id, int userId);
-		int UpdateServiceById(int id, AccountUpdateModel prov, int userId);
-		AccountModel[] GetServices(int offset, int limit, int userId);
-		AccountModel GetServiceById(int id);
+		ServiceModel[] GetServices(int offset, int limit);
+		ServiceModel GetServiceById(int id);
+		ServiceModel[] SearchServiceByName(string name, int offset, int limit);
+		ServiceModel[] GetAllServices();
 	}
 }

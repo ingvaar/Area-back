@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace area.Models
+namespace area.Models.About
 {
-	public partial class AboutWidgetModel
+	public abstract class AboutWidgetModel
 	{
 		[JsonPropertyName("name")]
 		public string Name { get; set; }

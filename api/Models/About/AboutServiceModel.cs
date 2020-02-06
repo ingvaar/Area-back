@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace area.Models
+namespace area.Models.About
 {
-	public partial class AboutServiceModel
+	public class AboutServiceModel
 	{
 		[JsonPropertyName("name")]
 		public string Name { get; set; }
