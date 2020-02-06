@@ -17,8 +17,8 @@ namespace area.Controllers
 	[Route("/service")]
 	public class ServiceController : Controller
 	{
-		private IServiceRepository service;
-		private IUserRepository user;
+		private readonly IServiceRepository service;
+		private readonly IUserRepository user;
 
 		public ServiceController(AreaContext context, IOptions<AppSettings> appSettings)
 		{
@@ -61,56 +61,6 @@ namespace area.Controllers
 				return Unauthorized("Bad token.");
 
 			return Ok(service.GetServiceById(id));
-		}
-
-		// DELETE service/{id}
-		[HttpDelete("{id}")]
-		public IActionResult Delete(int id)
-		{
-			var currentUser = user.GetCurrentUser(User);
-			if (currentUser == null)
-				return Unauthorized("Bad token.");
-
-			int success = service.DeleteServiceById(id, currentUser.Id);
-
-			if (success == 1)
-				return Ok();
-			else if (success == 2)
-				return Unauthorized();
-			return BadRequest();
-		}
-
-		// POST service
-		[HttpPost()]
-		public ActionResult<IEnumerable<string>> Post([FromForm] AccountCreationModel newProv)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest();
-			var currentUser = user.GetCurrentUser(User);
-			if (currentUser == null)
-				return Unauthorized("Bad token.");
-
-			return Ok(service.AddNewService(newProv, currentUser.Id));
-		}
-
-		// PATCH service/{id}
-		[HttpPatch("{id}")]
-		public IActionResult Patch(int id, [FromForm] AccountUpdateModel serv)
-		{
-			if(!ModelState.IsValid || id < 0)
-				return BadRequest();
-
-			var currentUser = user.GetCurrentUser(User);
-			if (currentUser == null)
-				return Unauthorized("Bad token.");
-
-			int success = service.UpdateServiceById(id, serv, currentUser.Id);
-
-			if (success == 1)
-				return Ok();
-			else if (success == 2)
-				return NotFound();
-			return BadRequest();
 		}
 	}
 }

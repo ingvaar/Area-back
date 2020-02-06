@@ -1,4 +1,4 @@
-namespace area.Models
+namespace area.Models.Provider
 {
 	public partial class ProviderModel
 	{
