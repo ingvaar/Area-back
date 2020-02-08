@@ -214,6 +214,14 @@ namespace area.Contexts
 					.HasColumnName("widget_id")
 					.HasColumnType("int(10) unsigned")
 					.HasDefaultValueSql("0");
+				
+				entity.Property(e => e.UpdatedAt)
+					.HasColumnName("updated_at")
+					.HasDefaultValueSql("current_timestamp()");
+				
+				entity.Property(e => e.CreatedAt)
+					.HasColumnName("created_at")
+					.HasDefaultValueSql("current_timestamp()");
 			});
 		}
 	}
