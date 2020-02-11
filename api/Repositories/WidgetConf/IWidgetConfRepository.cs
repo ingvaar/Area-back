@@ -11,6 +11,6 @@ namespace area.Repositories.WidgetConf
         WidgetConfModel[] GetWidgetConfByWidgetUserId(int widgetId, int userId, int offset, int limit);
         int DeleteWidgetConf(WidgetConfModel model);
         int AddNewWidgetConf(WidgetConfModel model);
-        int UpdateWidgetConf(WidgetConfModel model);
+        int UpdateWidgetConf(WidgetConfModel target, WidgetConfModel model);
     }
 }
