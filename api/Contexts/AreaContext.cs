@@ -54,7 +54,7 @@ namespace area.Contexts
 					.HasColumnType("int(10) unsigned");
 
 				entity.Property(e => e.Date)
-					.HasColumnName("date_created")
+					.HasColumnName("created_at")
 					.HasDefaultValueSql("current_timestamp()");
 
 				entity.Property(e => e.Email)
