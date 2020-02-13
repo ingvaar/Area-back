@@ -56,6 +56,12 @@ namespace area.Repositories.WidgetConf
 				.ToArray();
         }
 
+        public WidgetConfModel GetLastWidgetConfByUserId(int userId)
+        {
+	        return _repository.OrderBy(p => p.Id)
+		        .Last(c => c.UserId == userId);
+        }
+
         public int DeleteWidgetConf(WidgetConfModel model)
         {
 			_repository.Remove(model);

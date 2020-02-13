@@ -3,7 +3,7 @@ using area.Models.Widget;
 
 namespace area.Models.WidgetConf
 {
-	public abstract class WidgetConfModel
+	public class WidgetConfModel
 	{
 		public int Id { get; set; }
 		public int UserId { get; set; }
