@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
 using area.Business.User;
 using area.Business.Widget;
 using area.Configuration;
 using area.Contexts;
-using area.Helpers;
 using area.Models.WidgetConf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Serialization;
 
 namespace area.Controllers
 {
@@ -38,7 +35,7 @@ namespace area.Controllers
 		// GET widget/{id}
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public ActionResult<string> GetWidget([FromQuery] int offset, [FromQuery] int limit, int id)
+		public ActionResult<string> GetWidget(int id)
 		{
 			return Ok(_widgetBusiness.GetWidgetById(id));
 		}

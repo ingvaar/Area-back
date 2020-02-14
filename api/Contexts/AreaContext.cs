@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using area.Models;
 using area.Models.Provider;
 using area.Models.Service;
+using area.Models.User;
 using area.Models.Widget;
 using area.Models.WidgetConf;
 using area.Models.WidgetParam;

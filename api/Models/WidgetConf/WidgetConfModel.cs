@@ -1,4 +1,5 @@
 using System;
+using area.Models.User;
 using area.Models.Widget;
 
 namespace area.Models.WidgetConf

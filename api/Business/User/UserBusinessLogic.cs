@@ -7,6 +7,7 @@ using area.Contexts;
 using area.Entities;
 using area.Helpers;
 using area.Models;
+using area.Models.User;
 using area.Repositories.User;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

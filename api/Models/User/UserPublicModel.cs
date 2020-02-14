@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace area.Models
+namespace area.Models.User
 {
 	public partial class UserPublicModel
 	{
