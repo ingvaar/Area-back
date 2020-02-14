@@ -56,7 +56,6 @@ namespace area.Controllers
 		public ActionResult<IEnumerable<string>> GetWidgetConf([FromQuery] int offset, [FromQuery] int limit, int id)
 		{
 			var currentUser = _userBusiness.GetCurrentUser(User);
-			(offset, limit) = RangeHelper.CheckRange(offset, limit);
 
 			if (currentUser != null)
 				return Ok(_widgetBusiness.GetWidgetConf(id, currentUser, offset, limit));
