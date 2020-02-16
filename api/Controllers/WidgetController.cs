@@ -64,6 +64,8 @@ namespace area.Controllers
 		[HttpPost("{id}/conf")]
 		public ActionResult<string> PostWidgetConf(int id, [FromForm]WidgetConfCreationModel newConf)
 		{
+			if (!ModelState.IsValid)
+				return BadRequest();
 			var currentUser = _userBusiness.GetCurrentUser(User);
 
 			if (currentUser == null)
