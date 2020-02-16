@@ -2,4 +2,4 @@
 
 mysqld_safe --skip-grant-tables &
 sleep 5 &&
-mariadb -u root -ptoor dashboard < /tmp/database.sql
+mariadb -u root -ptoor area < /tmp/database.sql

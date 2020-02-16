@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.4.10-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.17  Distrib 10.4.12-MariaDB, for Linux (x86_64)
 --
--- Host: localhost    Database: dashboard
+-- Host: localhost    Database: area
 -- ------------------------------------------------------
--- Server version	10.4.10-MariaDB
+-- Server version	10.4.11-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,27 +14,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `account`
---
-
-DROP TABLE IF EXISTS `account`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `account` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `token` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `prov_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `last_update` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `account_FK` (`user_id`),
-  KEY `account_FK_1` (`prov_id`),
-  CONSTRAINT `account_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `account_FK_1` FOREIGN KEY (`prov_id`) REFERENCES `provider` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `provider`
@@ -52,6 +31,41 @@ CREATE TABLE `provider` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `provider`
+--
+
+LOCK TABLES `provider` WRITE;
+/*!40000 ALTER TABLE `provider` DISABLE KEYS */;
+/*!40000 ALTER TABLE `provider` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `service`
+--
+
+DROP TABLE IF EXISTS `service`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `service` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `prov_id` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `service_FK` (`prov_id`),
+  CONSTRAINT `service_FK` FOREIGN KEY (`prov_id`) REFERENCES `provider` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `service`
+--
+
+LOCK TABLES `service` WRITE;
+/*!40000 ALTER TABLE `service` DISABLE KEYS */;
+/*!40000 ALTER TABLE `service` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -63,36 +77,22 @@ CREATE TABLE `user` (
   `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `admin` tinyint(1) NOT NULL DEFAULT 0,
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQUE_EMAIL` (`email`),
   UNIQUE KEY `UNIQUE` (`username`,`email`),
+  UNIQUE KEY `UNIQUE_EMAIL` (`email`),
   UNIQUE KEY `UNIQUE_USER` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `user_widget`
+-- Dumping data for table `user`
 --
 
-DROP TABLE IF EXISTS `user_widget`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_widget` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `conf_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `widget_id` int(10) unsigned NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQUE` (`user_id`,`widget_id`),
-  KEY `user_widget_FK_2` (`widget_id`),
-  KEY `user_widget_FK_1` (`conf_id`),
-  CONSTRAINT `user_widget_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `user_widget_FK_1` FOREIGN KEY (`conf_id`) REFERENCES `widget_conf` (`id`),
-  CONSTRAINT `user_widget_FK_2` FOREIGN KEY (`widget_id`) REFERENCES `widget` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `widget`
@@ -104,16 +104,25 @@ DROP TABLE IF EXISTS `widget`;
 CREATE TABLE `widget` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `param_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `prov_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `service_id` int(10) unsigned NOT NULL DEFAULT 0,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQUE` (`name`),
-  KEY `widget_FK` (`prov_id`),
-  KEY `widget_FK_1` (`param_id`),
-  CONSTRAINT `widget_FK` FOREIGN KEY (`prov_id`) REFERENCES `provider` (`id`),
-  CONSTRAINT `widget_FK_1` FOREIGN KEY (`param_id`) REFERENCES `widget_param` (`id`)
+  UNIQUE KEY `UNIQUE` (`name`) USING BTREE,
+  KEY `widget_FK` (`service_id`) USING BTREE,
+  KEY `widget_FK_1` (`param_id`) USING BTREE,
+  CONSTRAINT `widget_FK` FOREIGN KEY (`param_id`) REFERENCES `widget_param` (`id`),
+  CONSTRAINT `widget_FK_1` FOREIGN KEY (`service_id`) REFERENCES `service` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `widget`
+--
+
+LOCK TABLES `widget` WRITE;
+/*!40000 ALTER TABLE `widget` DISABLE KEYS */;
+/*!40000 ALTER TABLE `widget` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `widget_conf`
@@ -125,9 +134,25 @@ DROP TABLE IF EXISTS `widget_conf`;
 CREATE TABLE `widget_conf` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `conf` text COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
+  `widget_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `widget_conf_FK` (`widget_id`),
+  CONSTRAINT `widget_conf_FK` FOREIGN KEY (`widget_id`) REFERENCES `widget` (`id`),
+  CONSTRAINT `widget_conf_FK_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `widget_conf`
+--
+
+LOCK TABLES `widget_conf` WRITE;
+/*!40000 ALTER TABLE `widget_conf` DISABLE KEYS */;
+/*!40000 ALTER TABLE `widget_conf` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `widget_param`
@@ -142,6 +167,15 @@ CREATE TABLE `widget_param` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `widget_param`
+--
+
+LOCK TABLES `widget_param` WRITE;
+/*!40000 ALTER TABLE `widget_param` DISABLE KEYS */;
+/*!40000 ALTER TABLE `widget_param` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -152,4 +186,4 @@ CREATE TABLE `widget_param` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-16 19:40:40
+-- Dump completed on 2020-02-16 15:45:30
