@@ -6,7 +6,7 @@ namespace area.Models.Service
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
-		public string ProvId { get; set; }
+		public int ProvId { get; set; }
 		public ProviderModel Provider { get; set; }
 	}
 }
