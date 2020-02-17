@@ -41,6 +41,7 @@ namespace area
 
 			services.AddMvc();
 			services.AddCors();
+			services.AddControllers();
 
 			services.AddAuthentication(x => {
 					x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -79,7 +80,13 @@ namespace area
 				app.UseHttpsRedirection();
 			}
 
+			app.UseRouting();
+			app.UseAuthorization();
 			app.UseAuthentication();
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
 		}
 	}
 }
