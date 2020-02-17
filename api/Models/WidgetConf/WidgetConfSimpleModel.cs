@@ -1,9 +1,8 @@
 using System;
-using area.Models.Widget;
 
 namespace area.Models.WidgetConf
 {
-	public abstract class WidgetConfSimpleModel
+	public partial class WidgetConfSimpleModel
 	{
 		public int Id { get; set; }
 		public int UserId { get; set; }

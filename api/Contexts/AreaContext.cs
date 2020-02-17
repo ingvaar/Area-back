@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-using area.Models;
 using area.Models.Provider;
 using area.Models.Service;
 using area.Models.User;
@@ -119,10 +118,6 @@ namespace area.Contexts
 					.HasName("name")
 					.IsUnique();
 
-				entity.HasOne(e => e.Provider)
-					.WithMany()
-					.HasForeignKey(e => e.Provider);
-
 				entity.Property(e => e.Id)
 					.HasColumnName("id")
 					.HasColumnType("int(10) unsigned");
@@ -151,14 +146,6 @@ namespace area.Contexts
 					.HasName("name")
 					.IsUnique();
 
-				entity.HasOne(e => e.Service)
-					.WithMany()
-					.HasForeignKey(e => e.ServiceId);
-
-				entity.HasOne(e => e.WidgetParam)
-					.WithMany()
-					.HasForeignKey(e => e.ParamId);
-				
 				entity.Property(e => e.Id)
 					.HasColumnName("id")
 					.HasColumnType("int(10) unsigned");
@@ -205,14 +192,6 @@ namespace area.Contexts
 				entity.ToTable("widget_conf", "area");
 
 				entity.HasKey(e => e.Id);
-
-				entity.HasOne(e => e.User)
-					.WithMany()
-					.HasForeignKey(e => e.UserId);
-				
-				entity.HasOne(e => e.Widget)
-					.WithMany()
-					.HasForeignKey(e => e.WidgetId);
 
 				entity.Property(e => e.Id)
 					.HasColumnName("id")
