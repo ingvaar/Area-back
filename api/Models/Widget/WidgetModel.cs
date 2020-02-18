@@ -4,7 +4,7 @@ using area.Models.WidgetParam;
 
 namespace area.Models.Widget
 {
-	public partial class WidgetModel
+	public class WidgetModel
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

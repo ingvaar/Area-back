@@ -1,6 +1,3 @@
-using System.Security.Claims;
-using area.Entities;
-using area.Models;
 using area.Models.User;
 
 namespace area.Repositories.User

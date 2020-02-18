@@ -2,7 +2,7 @@ using System;
 
 namespace area.Models.WidgetConf
 {
-	public partial class WidgetConfSimpleModel
+	public class WidgetConfSimpleModel
 	{
 		public int Id { get; set; }
 		public int UserId { get; set; }

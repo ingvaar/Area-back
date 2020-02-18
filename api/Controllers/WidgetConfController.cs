@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using area.Business.User;
 using area.Business.WidgetConf;
@@ -33,7 +32,7 @@ namespace area.Controllers
 			return Ok(_widgetConfBusiness.GetWidgetConfs(offset, limit));
 		}
 		
-		// GET widget/conf/{id}
+		// GET widget/conf/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public ActionResult<string> GetWidgetConf(int id)
@@ -41,7 +40,7 @@ namespace area.Controllers
 			return Ok(_widgetConfBusiness.GetWidgetConf(id));
 		}
 		
-		// PATCH widget/conf/{id}
+		// PATCH widget/conf/[id]
 		[HttpPatch("{id}")]
 		public ActionResult<string> PatchWidgetConf(int id, [FromForm] WidgetConfUpdateModel newConf)
 		{
@@ -58,7 +57,7 @@ namespace area.Controllers
 			return BadRequest();
 		}
 		
-		// DELETE widget/conf/{id}
+		// DELETE widget/conf/[id]
 		[HttpDelete("{id}")]
 		public ActionResult<string> DeleteWidgetConf(int id)
 		{

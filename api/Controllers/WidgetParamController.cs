@@ -1,12 +1,8 @@
 using System.Collections.Generic;
-using area.Business.User;
-using area.Business.Widget;
 using area.Business.WidgetParam;
-using area.Configuration;
 using area.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace area.Controllers
 {
@@ -16,7 +12,7 @@ namespace area.Controllers
     {
 		private readonly IWidgetParamBusinessLogic _widgetParamBusiness;
 		
-		public WidgetParamController(AreaContext context, IOptions<AppSettings> appSettings)
+		public WidgetParamController(AreaContext context)
 		{
 			_widgetParamBusiness = new WidgetParamBusinessLogic(context);
 		}
@@ -30,7 +26,7 @@ namespace area.Controllers
 			return Ok(_widgetParamBusiness.GetWidgetParams(offset, limit));
 		}
 
-		// GET widget/param/{id}
+		// GET widget/param/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public ActionResult<string> GetWidgetParam(int id)

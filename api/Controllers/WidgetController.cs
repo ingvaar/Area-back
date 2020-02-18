@@ -32,7 +32,7 @@ namespace area.Controllers
 			return Ok(_widgetBusiness.GetWidgets(offset, limit));
 		}
 
-		// GET widget/{id}
+		// GET widget/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public ActionResult<string> GetWidget(int id)
@@ -40,7 +40,7 @@ namespace area.Controllers
 			return Ok(_widgetBusiness.GetWidgetById(id));
 		}
 
-		// GET widget/{id}/param
+		// GET widget/[id]/param
 		[AllowAnonymous]
 		[HttpGet("{id}/param")]
 		public ActionResult<string> GetWidgetParam(int id)
@@ -48,7 +48,7 @@ namespace area.Controllers
 			return Ok(_widgetBusiness.GetWidgetParam(id));
 		}
 
-		// GET widget/{id}/conf
+		// GET widget/[id]/conf
 		[HttpGet("{id}/conf")]
 		public ActionResult<IEnumerable<string>> GetWidgetConf([FromQuery] int offset, [FromQuery] int limit, int id)
 		{
@@ -60,7 +60,7 @@ namespace area.Controllers
 			return Unauthorized();
 		}
 
-		// POST widget/{id}/conf
+		// POST widget/[id]/conf
 		[HttpPost("{id}/conf")]
 		public ActionResult<string> PostWidgetConf(int id, [FromForm]WidgetConfCreationModel newConf)
 		{

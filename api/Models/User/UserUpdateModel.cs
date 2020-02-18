@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace area.Models.User
 {
-	public partial class UserUpdateModel
+	public class UserUpdateModel
 	{
 		[StringLength(100)]
 		public string Username { get; set; }

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace area.Models.About
 {
-	public partial class AboutWidgetModel
+	public class AboutWidgetModel
 	{
 		[JsonPropertyName("name")]
 		public string Name { get; set; }

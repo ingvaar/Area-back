@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace area.Models.User
 {
-	public partial class UserAuthModel
+	public class UserAuthModel
 	{
 		[Required]
 		[StringLength(100)]

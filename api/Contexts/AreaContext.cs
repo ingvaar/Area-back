@@ -9,7 +9,7 @@ using area.Models.WidgetParam;
 
 namespace area.Contexts
 {
-	public partial class AreaContext : DbContext
+	public class AreaContext : DbContext
 	{
 		public AreaContext()
 		{
