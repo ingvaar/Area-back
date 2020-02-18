@@ -27,6 +27,11 @@ namespace area.Business.User
         public UserPublicModel AddNewUser(UserCreationModel newUser)
         {
 	        var user = new UserModel {Email = newUser.Email, Password = newUser.Password, Username = newUser.Username};
+	        
+	        var (byName, byEmail) = (_repository.GetUserByUsername(newUser.Username), _repository.GetUserByEmail(
+		        newUser.Email));
+	        if (byName != null || byEmail != null)
+		        return null;
 
 	        return _repository.AddNewUser(user) == 1 ? _repository.GetUserByUsername(user.Username) : null;
         }
