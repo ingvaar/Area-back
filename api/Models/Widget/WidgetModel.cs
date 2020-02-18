@@ -6,12 +6,12 @@ namespace area.Models.Widget
 {
 	public class WidgetModel
 	{
-		public int Id { get; set; }
+		public uint Id { get; set; }
 		public string Name { get; set; }
-		public int ServiceId { get; set; }
+		public uint ServiceId { get; set; }
 		[ForeignKey("ServiceForeignKey")]
 		public ServiceModel Service { get; set; }
-		public int ParamId { get; set; }
+		public uint ParamId { get; set; }
 		[ForeignKey("WidgetForeignKey")]
 		public WidgetParamModel WidgetParam { get; set; }
 	}

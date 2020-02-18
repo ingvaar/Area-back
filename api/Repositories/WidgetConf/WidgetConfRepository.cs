@@ -47,7 +47,7 @@ namespace area.Repositories.WidgetConf
 				.ToArray();
         }
 
-        public WidgetConfModel[] GetWidgetConfByWidgetUserId(int widgetId, int userId, int offset, int limit)
+        public WidgetConfModel[] GetWidgetConfByWidgetUserId(int widgetId, uint userId, int offset, int limit)
         {
 			return _repository.OrderBy(p => p.Id)
                 .Where(c => c.WidgetId == widgetId && c.UserId == userId)
@@ -56,7 +56,7 @@ namespace area.Repositories.WidgetConf
 				.ToArray();
         }
 
-        public WidgetConfModel GetLastWidgetConfByUserId(int userId)
+        public WidgetConfModel GetLastWidgetConfByUserId(uint userId)
         {
 	        return _repository.OrderBy(p => p.Id)
 		        .Last(c => c.UserId == userId);

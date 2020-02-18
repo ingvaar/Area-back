@@ -31,7 +31,7 @@ namespace area.Business.User
 	        return _repository.AddNewUser(user) == 1 ? _repository.GetUserByUsername(user.Username) : null;
         }
 
-        public int DeleteUserById(int id, int userId)
+        public int DeleteUserById(int id, uint userId)
         {
 			if (id < 0)
 				return 0;
@@ -65,7 +65,7 @@ namespace area.Business.User
             return _repository.GetUsers(offset, limit);
         }
 
-        public int UpdateUserById(int id, UserUpdateModel updatedUser, int userId)
+        public int UpdateUserById(int id, UserUpdateModel updatedUser, uint userId)
         {
 			var target = _repository.GetUserById(id);
 
@@ -121,7 +121,7 @@ namespace area.Business.User
         {
 	        var currentUser = new UserPublicModel
 	        {
-		        Id = int.Parse(user.FindFirst(ClaimTypes.Name)?.Value),
+		        Id = uint.Parse(user.FindFirst(ClaimTypes.Name)?.Value),
 		        Username = user.FindFirst("Username")?.Value,
 		        Email = user.FindFirst(ClaimTypes.Email)?.Value,
 		        Date = DateTimeOffset.Parse(user.FindFirst("DateOfJoin")?.Value)

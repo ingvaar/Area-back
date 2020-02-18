@@ -7,10 +7,10 @@ namespace area.Business.User
     public interface IUserBusinessLogic
     {
 		UserPublicModel AddNewUser(UserCreationModel newUser);
-		int DeleteUserById(int id, int userId);
+		int DeleteUserById(int id, uint userId);
 		UserPublicModel GetUserById(int id);
 		UserPublicModel[] GetUsers(int offset, int limit);
-		int UpdateUserById(int id, UserUpdateModel updatedUser, int userId);
+		int UpdateUserById(int id, UserUpdateModel updatedUser, uint userId);
 		UserEntity Authenticate(UserAuthModel authUser);
 		UserPublicModel GetCurrentUser(ClaimsPrincipal user);
 		UserPublicModel GetUserByUsername(string username);

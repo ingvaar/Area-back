@@ -7,11 +7,11 @@ namespace area.Models.WidgetConf
 {
 	public class WidgetConfModel
 	{
-		public int Id { get; set; }
-		public int UserId { get; set; }
+		public uint Id { get; set; }
+		public uint UserId { get; set; }
 		[ForeignKey("UserForeignKey")]
 		public UserModel User { get; set; }
-		public int WidgetId { get; set; }
+		public uint WidgetId { get; set; }
 		[ForeignKey("WidgetForeignKey")]
 		public WidgetModel Widget { get; set; }
 		public string Conf { get; set; }

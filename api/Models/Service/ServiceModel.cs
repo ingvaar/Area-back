@@ -5,9 +5,9 @@ namespace area.Models.Service
 {
 	public class ServiceModel
 	{
-		public int Id { get; set; }
+		public uint Id { get; set; }
 		public string Name { get; set; }
-		public int ProvId { get; set; }
+		public uint ProvId { get; set; }
 		[ForeignKey("ProviderForeignKey")]
 		public ProviderModel Provider { get; set; }
 	}
