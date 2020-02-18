@@ -76,15 +76,12 @@ namespace area.Controllers
 
 			var success = _business.UpdateUserById(id, newUser, currentUser.Id);
 
-			switch (success)
+			return success switch
 			{
-				case 1:
-					return Ok();
-				case 2:
-					return NotFound();
-				default:
-					return BadRequest();
-			}
+				1 => (IActionResult) Ok(),
+				2 => NotFound(),
+				_ => BadRequest()
+			};
 		}
 
 		// DELETE user/5
@@ -97,15 +94,12 @@ namespace area.Controllers
 
 			var success = _business.DeleteUserById(id, currentUser.Id);
 
-			switch (success)
+			return success switch
 			{
-				case 1:
-					return Ok();
-				case 2:
-					return Unauthorized();
-				default:
-					return BadRequest();
-			}
+				1 => (IActionResult) Ok(),
+				2 => Unauthorized(),
+				_ => BadRequest()
+			};
 		}
 
 		// POST user/authenticate
