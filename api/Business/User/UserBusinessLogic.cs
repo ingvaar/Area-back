@@ -28,6 +28,10 @@ namespace area.Business.User
         {
 	        var user = new UserModel {Email = newUser.Email, Password = newUser.Password, Username = newUser.Username};
 	        
+			var addr = new System.Net.Mail.MailAddress(newUser.Email);
+            if (addr.Address != newUser.Email)
+				return null;
+	        
 	        var (byName, byEmail) = (_repository.GetUserByUsername(newUser.Username), _repository.GetUserByEmail(
 		        newUser.Email));
 	        if (byName != null || byEmail != null)
@@ -83,8 +87,13 @@ namespace area.Business.User
 				updatedUser.Username = target.Username;
 			if (updatedUser.Password == null)
 				updatedUser.Password = target.Password;
-			if (updatedUser.Email == null)
+			if (updatedUser.Email == null) {
 				updatedUser.Email = target.Email;
+			} else {
+				var addr = new System.Net.Mail.MailAddress(updatedUser.Email);
+                if (addr.Address != updatedUser.Email)
+	                return 0;
+			}
 
 			return _repository.UpdateUser(updatedUser, target);
         }
