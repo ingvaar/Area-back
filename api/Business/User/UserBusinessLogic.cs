@@ -27,11 +27,16 @@ namespace area.Business.User
         public UserPublicModel AddNewUser(UserCreationModel newUser)
         {
 	        var user = new UserModel {Email = newUser.Email, Password = newUser.Password, Username = newUser.Username};
-	        
-			var addr = new System.Net.Mail.MailAddress(newUser.Email);
-            if (addr.Address != newUser.Email)
-				return null;
-	        
+
+	        try
+	        {
+				#pragma warning disable S1481
+		        var unused = new System.Net.Mail.MailAddress(newUser.Email);
+				#pragma warning restore S1481
+	        } catch {
+		        return null;
+	        }
+
 	        var (byName, byEmail) = (_repository.GetUserByUsername(newUser.Username), _repository.GetUserByEmail(
 		        newUser.Email));
 	        if (byName != null || byEmail != null)
@@ -90,9 +95,14 @@ namespace area.Business.User
 			if (updatedUser.Email == null) {
 				updatedUser.Email = target.Email;
 			} else {
-				var addr = new System.Net.Mail.MailAddress(updatedUser.Email);
-                if (addr.Address != updatedUser.Email)
-	                return 0;
+				try
+				{
+					#pragma warning disable S1481
+				    var unused = new System.Net.Mail.MailAddress(updatedUser.Email);
+					#pragma warning restore S1481
+				} catch {
+				    return 0;
+				}
 			}
 
 			return _repository.UpdateUser(updatedUser, target);
