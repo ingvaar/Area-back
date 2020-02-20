@@ -57,7 +57,7 @@ namespace area.Controllers
 
 			if (success != null)
 				return Created("users", success);
-			return BadRequest();
+			return Conflict(new { message = "Account already exists" });
 		}
 
 		// PATCH user/5
