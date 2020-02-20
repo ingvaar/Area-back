@@ -33,7 +33,7 @@ namespace area.Business.User
 				#pragma warning disable S1481
 		        var unused = new System.Net.Mail.MailAddress(newUser.Email);
 				#pragma warning restore S1481
-	        } catch {
+	        } catch (FormatException) {
 		        return null;
 	        }
 
@@ -100,7 +100,7 @@ namespace area.Business.User
 					#pragma warning disable S1481
 				    var unused = new System.Net.Mail.MailAddress(updatedUser.Email);
 					#pragma warning restore S1481
-				} catch {
+				} catch(FormatException) {
 				    return 0;
 				}
 			}
