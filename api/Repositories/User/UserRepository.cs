@@ -1,6 +1,6 @@
 using System.Linq;
 using area.Contexts;
-using area.Models;
+using area.Models.User;
 
 namespace area.Repositories.User
 {

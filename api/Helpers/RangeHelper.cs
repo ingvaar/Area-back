@@ -1,6 +1,7 @@
+#pragma warning disable S1854  
 namespace area.Helpers
 {
-	public class RangeHelper
+	public static class RangeHelper
 	{
 		public static (int, int) CheckRange(int offset, int limit, int max = 50)
 		{

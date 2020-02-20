@@ -2,15 +2,11 @@ using System.Text;
 
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.EntityFrameworkCore;
 
 using area.Configuration;
 using area.Contexts;
@@ -30,7 +26,7 @@ namespace area
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<AreaContext>(options =>
-				  options.UseMySQL(Configuration.GetConnectionString("Database")));
+				  options.UseMySql(Configuration.GetConnectionString("Database")));
 
 			var appSettingsSection = Configuration.GetSection("Application");
 			services.Configure<AppSettings>(appSettingsSection);
@@ -41,6 +37,7 @@ namespace area
 
 			services.AddMvc();
 			services.AddCors();
+			services.AddControllers();
 
 			services.AddAuthentication(x => {
 					x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -79,7 +76,13 @@ namespace area
 				app.UseHttpsRedirection();
 			}
 
+			app.UseRouting();
 			app.UseAuthentication();
+			app.UseAuthorization();
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
 		}
 	}
 }

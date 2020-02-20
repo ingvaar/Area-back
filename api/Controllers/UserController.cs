@@ -6,8 +6,8 @@ using Microsoft.Extensions.Options;
 
 using area.Configuration;
 using area.Contexts;
-using area.Models;
 using area.Business.User;
+using area.Models.User;
 
 namespace area.Controllers
 {
@@ -57,7 +57,7 @@ namespace area.Controllers
 
 			if (success != null)
 				return Created("users", success);
-			return BadRequest();
+			return Conflict(new { message = "Account already exists" });
 		}
 
 		// PATCH user/5
@@ -76,15 +76,12 @@ namespace area.Controllers
 
 			var success = _business.UpdateUserById(id, newUser, currentUser.Id);
 
-			switch (success)
+			return success switch
 			{
-				case 1:
-					return Ok();
-				case 2:
-					return NotFound();
-				default:
-					return BadRequest();
-			}
+				1 => (IActionResult) Ok(),
+				2 => NotFound(),
+				_ => BadRequest()
+			};
 		}
 
 		// DELETE user/5
@@ -97,15 +94,12 @@ namespace area.Controllers
 
 			var success = _business.DeleteUserById(id, currentUser.Id);
 
-			switch (success)
+			return success switch
 			{
-				case 1:
-					return Ok();
-				case 2:
-					return Unauthorized();
-				default:
-					return BadRequest();
-			}
+				1 => (IActionResult) Ok(),
+				2 => Unauthorized(),
+				_ => BadRequest()
+			};
 		}
 
 		// POST user/authenticate

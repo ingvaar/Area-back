@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace area.Models
+namespace area.Models.User
 {
-	public partial class UserCreationModel
+	public class UserCreationModel
 	{
 		[Required]
 		[StringLength(100)]
@@ -13,6 +13,7 @@ namespace area.Models
 		public string Password { get; set; }
 
 		[Required]
+		[EmailAddress]	
 		[StringLength(100)]
 		public string Email { get; set; }
 	}

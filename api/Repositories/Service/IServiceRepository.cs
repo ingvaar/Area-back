@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using area.Models.Service;
 
 namespace area.Repositories.Service
@@ -7,6 +8,6 @@ namespace area.Repositories.Service
 		ServiceModel[] GetServices(int offset, int limit);
 		ServiceModel GetServiceById(int id);
 		ServiceModel[] SearchServiceByName(string name, int offset, int limit);
-		ServiceModel[] GetAllServices();
+		IEnumerable<ServiceModel> GetAllServices();
 	}
 }

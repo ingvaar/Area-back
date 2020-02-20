@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using area.Business.Provider;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 
-using area.Configuration;
 using area.Contexts;
 
 namespace area.Controllers
@@ -15,7 +13,7 @@ namespace area.Controllers
 	{
 		private readonly IProviderBusinessLogic _provider;
 
-		public ProviderController(AreaContext context, IOptions<AppSettings> appSettings)
+		public ProviderController(AreaContext context)
 		{
 			_provider = new ProviderBusinessLogic(context);
 		}
@@ -39,7 +37,7 @@ namespace area.Controllers
 			return Ok(_provider.SearchProviderByName(name, offset, limit));
 		}
 
-		// GET provider/{id}
+		// GET provider/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public ActionResult<IEnumerable<string>> GetById(int id)

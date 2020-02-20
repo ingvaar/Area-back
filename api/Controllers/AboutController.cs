@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 using area.Business.About;
-using area.Configuration;
 using area.Contexts;
 
 namespace area.Controllers
@@ -13,7 +11,7 @@ namespace area.Controllers
 	{
 		private readonly IAboutBusinessLogic _about;
 
-		public AboutController(AreaContext context, IOptions<AppSettings> appSettings)
+		public AboutController(AreaContext context)
 		{
 			_about = new AboutBusinessLogic(context);
 		}

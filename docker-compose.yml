@@ -19,7 +19,7 @@ services:
                 restart: always
                 environment:
                         - MYSQL_ROOT_PASSWORD=toor
-                        - MYSQL_DATABASE=dashboard
+                        - MYSQL_DATABASE=area
                 volumes:
                         - db-data:/var/lib/mysql
                 networks:

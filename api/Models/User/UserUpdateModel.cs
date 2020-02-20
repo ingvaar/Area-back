@@ -1,15 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace area.Models
+namespace area.Models.User
 {
-	public partial class UserUpdateModel
+	public class UserUpdateModel
 	{
 		[StringLength(100)]
 		public string Username { get; set; }
 
 		[StringLength(100)]
 		public string Password { get; set; }
-
+		
+		[EmailAddress]
 		[StringLength(100)]
 		public string Email { get; set; }
 	}

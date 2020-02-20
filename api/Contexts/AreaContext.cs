@@ -1,12 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 
-using area.Models;
 using area.Models.Provider;
 using area.Models.Service;
+using area.Models.User;
+using area.Models.Widget;
+using area.Models.WidgetConf;
+using area.Models.WidgetParam;
 
 namespace area.Contexts
 {
-	public partial class AreaContext : DbContext
+	public class AreaContext : DbContext
 	{
 		public AreaContext()
 		{
@@ -20,6 +23,9 @@ namespace area.Contexts
 		public virtual DbSet<UserModel> User { get; set; }
 		public virtual DbSet<ProviderModel> Provider { get; set; }
 		public virtual DbSet<ServiceModel> Service { get; set; }
+		public virtual DbSet<WidgetModel> Widget { get; set; }
+		public virtual DbSet<WidgetConfModel> WidgetConf { get; set; }
+		public virtual DbSet<WidgetParamModel> WidgetParam { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -48,7 +54,7 @@ namespace area.Contexts
 					.HasColumnType("int(10) unsigned");
 
 				entity.Property(e => e.Date)
-					.HasColumnName("date_created")
+					.HasColumnName("created_at")
 					.HasDefaultValueSql("current_timestamp()");
 
 				entity.Property(e => e.Email)
@@ -128,6 +134,94 @@ namespace area.Contexts
 					.HasColumnName("prov_id")
 					.HasColumnType("int(10) unsigned")
 					.HasDefaultValueSql("0");
+			});
+
+			modelBuilder.Entity<WidgetModel>(entity =>
+			{
+				entity.ToTable("widget", "area");
+
+				entity.HasKey(e => e.Id);
+
+				entity.HasIndex(e => new {e.Name})
+					.HasName("name")
+					.IsUnique();
+
+				entity.Property(e => e.Id)
+					.HasColumnName("id")
+					.HasColumnType("int(10) unsigned");
+
+				entity.Property(e => e.Name)
+					.IsRequired()
+					.HasColumnName("name")
+					.HasMaxLength(100)
+					.IsUnicode(false)
+					.HasDefaultValueSql("''");
+
+				entity.Property(e => e.ParamId)
+					.IsRequired()
+					.HasColumnName("param_id")
+					.HasColumnType("int(10) unsigned")
+					.HasDefaultValueSql("0");
+				
+				entity.Property(e => e.ServiceId)
+					.IsRequired()
+					.HasColumnName("service_id")
+					.HasColumnType("int(10) unsigned")
+					.HasDefaultValueSql("0");
+			});
+
+			modelBuilder.Entity<WidgetParamModel>(entity =>
+			{
+				entity.ToTable("widget_param", "area");
+
+				entity.HasKey(e => e.Id);
+
+				entity.Property(e => e.Id)
+					.HasColumnName("id")
+					.HasColumnType("int(10) unsigned");
+
+				entity.Property(e => e.Param)
+					.IsRequired()
+					.HasColumnName("param")
+					.IsUnicode(false)
+					.HasDefaultValueSql("''");
+			});
+			
+			modelBuilder.Entity<WidgetConfModel>(entity =>
+			{
+				entity.ToTable("widget_conf", "area");
+
+				entity.HasKey(e => e.Id);
+
+				entity.Property(e => e.Id)
+					.HasColumnName("id")
+					.HasColumnType("int(10) unsigned");
+
+				entity.Property(e => e.Conf)
+					.IsRequired()
+					.HasColumnName("conf")
+					.IsUnicode(false)
+					.HasDefaultValueSql("''");
+				
+				entity.Property(e => e.UserId)
+					.IsRequired()
+					.HasColumnName("user_id")
+					.HasColumnType("int(10) unsigned")
+					.HasDefaultValueSql("0");
+				
+				entity.Property(e => e.WidgetId)
+					.IsRequired()
+					.HasColumnName("widget_id")
+					.HasColumnType("int(10) unsigned")
+					.HasDefaultValueSql("0");
+				
+				entity.Property(e => e.UpdatedAt)
+					.HasColumnName("updated_at")
+					.HasDefaultValueSql("current_timestamp()");
+				
+				entity.Property(e => e.CreatedAt)
+					.HasColumnName("created_at")
+					.HasDefaultValueSql("current_timestamp()");
 			});
 		}
 	}

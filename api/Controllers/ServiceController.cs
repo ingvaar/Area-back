@@ -3,9 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using area.Business.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 
-using area.Configuration;
 using area.Contexts;
 
 namespace area.Controllers
@@ -16,7 +14,7 @@ namespace area.Controllers
 	{
 		private readonly IServiceBusinessLogic _service;
 
-		public ServiceController(AreaContext context, IOptions<AppSettings> appSettings)
+		public ServiceController(AreaContext context)
 		{
 			_service = new ServiceBusinessLogic(context);
 		}
@@ -40,7 +38,7 @@ namespace area.Controllers
 			return Ok(_service.SearchServiceByName(name, offset, limit));
 		}
 
-		// GET service/{id}
+		// GET service/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public ActionResult<IEnumerable<string>> GetById(int id)

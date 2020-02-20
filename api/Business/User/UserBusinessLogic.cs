@@ -6,7 +6,7 @@ using area.Configuration;
 using area.Contexts;
 using area.Entities;
 using area.Helpers;
-using area.Models;
+using area.Models.User;
 using area.Repositories.User;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -28,10 +28,15 @@ namespace area.Business.User
         {
 	        var user = new UserModel {Email = newUser.Email, Password = newUser.Password, Username = newUser.Username};
 
+	        var (byName, byEmail) = (_repository.GetUserByUsername(newUser.Username), _repository.GetUserByEmail(
+		        newUser.Email));
+	        if (byName != null || byEmail != null)
+		        return null;
+
 	        return _repository.AddNewUser(user) == 1 ? _repository.GetUserByUsername(user.Username) : null;
         }
 
-        public int DeleteUserById(int id, int userId)
+        public int DeleteUserById(int id, uint userId)
         {
 			if (id < 0)
 				return 0;
@@ -65,7 +70,7 @@ namespace area.Business.User
             return _repository.GetUsers(offset, limit);
         }
 
-        public int UpdateUserById(int id, UserUpdateModel updatedUser, int userId)
+        public int UpdateUserById(int id, UserUpdateModel updatedUser, uint userId)
         {
 			var target = _repository.GetUserById(id);
 
@@ -78,8 +83,9 @@ namespace area.Business.User
 				updatedUser.Username = target.Username;
 			if (updatedUser.Password == null)
 				updatedUser.Password = target.Password;
-			if (updatedUser.Email == null)
+			if (updatedUser.Email == null) {
 				updatedUser.Email = target.Email;
+			}
 
 			return _repository.UpdateUser(updatedUser, target);
         }
@@ -121,7 +127,7 @@ namespace area.Business.User
         {
 	        var currentUser = new UserPublicModel
 	        {
-		        Id = int.Parse(user.FindFirst(ClaimTypes.Name)?.Value),
+		        Id = uint.Parse(user.FindFirst(ClaimTypes.Name)?.Value),
 		        Username = user.FindFirst("Username")?.Value,
 		        Email = user.FindFirst(ClaimTypes.Email)?.Value,
 		        Date = DateTimeOffset.Parse(user.FindFirst("DateOfJoin")?.Value)
