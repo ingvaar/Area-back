@@ -13,6 +13,7 @@ namespace area.Models.User
 		public string Password { get; set; }
 
 		[Required]
+		[EmailAddress]	
 		[StringLength(100)]
 		public string Email { get; set; }
 	}

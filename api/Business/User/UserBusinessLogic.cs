@@ -28,15 +28,6 @@ namespace area.Business.User
         {
 	        var user = new UserModel {Email = newUser.Email, Password = newUser.Password, Username = newUser.Username};
 
-	        try
-	        {
-				#pragma warning disable S1481
-		        var unused = new System.Net.Mail.MailAddress(newUser.Email);
-				#pragma warning restore S1481
-	        } catch (FormatException) {
-		        return null;
-	        }
-
 	        var (byName, byEmail) = (_repository.GetUserByUsername(newUser.Username), _repository.GetUserByEmail(
 		        newUser.Email));
 	        if (byName != null || byEmail != null)
@@ -94,15 +85,6 @@ namespace area.Business.User
 				updatedUser.Password = target.Password;
 			if (updatedUser.Email == null) {
 				updatedUser.Email = target.Email;
-			} else {
-				try
-				{
-					#pragma warning disable S1481
-				    var unused = new System.Net.Mail.MailAddress(updatedUser.Email);
-					#pragma warning restore S1481
-				} catch(FormatException) {
-				    return 0;
-				}
 			}
 
 			return _repository.UpdateUser(updatedUser, target);

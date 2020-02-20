@@ -9,7 +9,8 @@ namespace area.Models.User
 
 		[StringLength(100)]
 		public string Password { get; set; }
-
+		
+		[EmailAddress]
 		[StringLength(100)]
 		public string Email { get; set; }
 	}
