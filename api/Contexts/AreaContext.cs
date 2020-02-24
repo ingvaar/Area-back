@@ -106,6 +106,13 @@ namespace area.Contexts
 					.HasMaxLength(100)
 					.IsUnicode(false)
 					.HasDefaultValueSql("''");
+				
+				entity.Property(e => e.Key)
+					.IsRequired()
+					.HasColumnName("key")
+					.HasMaxLength(100)
+					.IsUnicode(false)
+					.HasDefaultValueSql("''");
 			});
 			
 			modelBuilder.Entity<ServiceModel>(entity =>

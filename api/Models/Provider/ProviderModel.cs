@@ -5,5 +5,6 @@ namespace area.Models.Provider
 		public uint Id { get; set; }
 		public string Name { get; set; }
 		public string Url { get; set; }
+		public string Key { get; set; }
 	}
 }
