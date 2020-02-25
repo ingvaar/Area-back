@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using area.Business.User;
+using area.Business.Worker;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
@@ -14,10 +15,12 @@ namespace area.Controllers
     public class WorkerController : Controller
     {
         private readonly IUserBusinessLogic _userBusiness;
+        private readonly IWorkerBusinessLogic _workerBusiness;
         
         public WorkerController(AreaContext context, IOptions<AppSettings> appSettings)
         {
            _userBusiness = new UserBusinessLogic(context, appSettings); 
+           _workerBusiness = new WorkerBusinessLogic(context);
         }
         
         // GET worker/[id]
@@ -28,7 +31,8 @@ namespace area.Controllers
             if (currentUser == null)
                 return Unauthorized();
 
-            return NotFound();
+            var data = _workerBusiness.GetData(id, currentUser);
+            return data == null ? Problem() : Ok(data);
         }
     }
 }

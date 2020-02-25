@@ -41,7 +41,7 @@ namespace area.Controllers
 		// GET service/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public ActionResult<IEnumerable<string>> GetById(int id)
+		public ActionResult<IEnumerable<string>> GetById(uint id)
 		{
 			return Ok(_service.GetServiceById(id));
 		}

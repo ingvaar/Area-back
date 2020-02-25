@@ -21,7 +21,7 @@ namespace area.Business.Service
             return _repository.GetServices(offset, limit);
         }
 
-        public ServiceModel GetServiceById(int id)
+        public ServiceModel GetServiceById(uint id)
         {
             return _repository.GetServiceById(id);
         }

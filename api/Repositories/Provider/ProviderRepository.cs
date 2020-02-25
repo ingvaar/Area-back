@@ -14,9 +14,9 @@ namespace area.Repositories.Provider
 		}
 
 
-		public ProviderModel GetProviderById(int id)
+		public ProviderModel GetProviderById(uint id)
 		{
-			return id < 0 ? null : _context.Provider.SingleOrDefault(a => a.Id == id);
+			return _context.Provider.SingleOrDefault(a => a.Id == id);
 		}
 
 		public ProviderModel[] GetProviders(int offset, int limit)

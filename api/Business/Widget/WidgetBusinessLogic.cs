@@ -30,19 +30,19 @@ namespace area.Business.Widget
             return _widgetRepository.GetWidgets(offset, limit);
         }
 
-        public WidgetModel GetWidgetById(int id)
+        public WidgetModel GetWidgetById(uint id)
         {
             return _widgetRepository.GetWidgetById(id);
         }
 
-        public WidgetParamModel GetWidgetParam(int widgetId)
+        public WidgetParamModel GetWidgetParam(uint widgetId)
         {
             var widget = _widgetRepository.GetWidgetById(widgetId);
 
             return widget != null ? _widgetParamRepository.GetWidgetParamByWidgetId(widgetId) : null;
         }
 
-        public WidgetConfModel[] GetWidgetConf(int widgetId, UserPublicModel user, int offset, int limit)
+        public WidgetConfModel[] GetWidgetConf(uint widgetId, UserPublicModel user, int offset, int limit)
         {
             (offset, limit) = RangeHelper.CheckRange(offset, limit, 20);
             var widget = _widgetRepository.GetWidgetById(widgetId);

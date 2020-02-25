@@ -35,7 +35,7 @@ namespace area.Controllers
 		// GET widget/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public ActionResult<string> GetWidget(int id)
+		public ActionResult<string> GetWidget(uint id)
 		{
 			return Ok(_widgetBusiness.GetWidgetById(id));
 		}
@@ -43,14 +43,14 @@ namespace area.Controllers
 		// GET widget/[id]/param
 		[AllowAnonymous]
 		[HttpGet("{id}/param")]
-		public ActionResult<string> GetWidgetParam(int id)
+		public ActionResult<string> GetWidgetParam(uint id)
 		{
 			return Ok(_widgetBusiness.GetWidgetParam(id));
 		}
 
 		// GET widget/[id]/conf
 		[HttpGet("{id}/conf")]
-		public ActionResult<IEnumerable<string>> GetWidgetConf([FromQuery] int offset, [FromQuery] int limit, int id)
+		public ActionResult<IEnumerable<string>> GetWidgetConf([FromQuery] int offset, [FromQuery] int limit, uint id)
 		{
 			var currentUser = _userBusiness.GetCurrentUser(User);
 

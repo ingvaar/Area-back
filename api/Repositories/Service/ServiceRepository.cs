@@ -14,9 +14,9 @@ namespace area.Repositories.Service
 			_context = context;
 		}
 
-		public ServiceModel GetServiceById(int id)
+		public ServiceModel GetServiceById(uint id)
 		{
-			return id < 0 ? null : _context.Service.SingleOrDefault(a => a.Id == id);
+			return _context.Service.SingleOrDefault(a => a.Id == id);
 		}
 
 		public ServiceModel[] GetServices(int offset, int limit)
