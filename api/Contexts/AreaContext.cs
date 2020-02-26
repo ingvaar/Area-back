@@ -109,7 +109,7 @@ namespace area.Contexts
 				
 				entity.Property(e => e.Key)
 					.IsRequired()
-					.HasColumnName("key")
+					.HasColumnName("api-key")
 					.HasMaxLength(100)
 					.IsUnicode(false)
 					.HasDefaultValueSql("''");
