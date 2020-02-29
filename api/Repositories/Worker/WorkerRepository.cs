@@ -13,18 +13,26 @@ namespace area.Repositories.Worker
             _client = new HttpClient();
         }
         
-        public async Task<string> Get(string route)
-        {
-            return await _client.GetStringAsync(route);
+        public string Get(string route)
+        { 
+            var response = _client.GetStringAsync(route);
+
+            response.Wait();
+            return response.Result;
         }
 
-        public async Task<string> Post(string route, Dictionary<string, string> form)
+        public string Post(string route, Dictionary<string, string> form)
         {
             var content = new FormUrlEncodedContent(form);
 
-            var response = await _client.PostAsync(route, content);
-
-            return await response.Content.ReadAsStringAsync();
+            var response = _client.PostAsync(route, content);
+            
+            response.Wait();
+            
+            var result = response.Result.Content.ReadAsStringAsync();
+            result.Wait();
+            
+            return result.Result;
         }
     }
 }

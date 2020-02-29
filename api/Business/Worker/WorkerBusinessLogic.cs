@@ -48,8 +48,8 @@ namespace area.Business.Worker
 
             return method switch
             {
-                "get" => _workerRepository.Get(route).ToString(),
-                "post" => _workerRepository.Post(route, form).ToString(),
+                "get" => _workerRepository.Get(route),
+                "post" => _workerRepository.Post(route, form),
                 _ => null
             };
         }
