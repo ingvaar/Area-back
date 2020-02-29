@@ -47,7 +47,7 @@ namespace area.Repositories.WidgetConf
 				.ToArray();
         }
 
-        public WidgetConfModel[] GetWidgetConfByWidgetUserId(int widgetId, uint userId, int offset, int limit)
+        public WidgetConfModel[] GetWidgetConfByWidgetUserId(uint widgetId, uint userId, int offset, int limit)
         {
 			return _repository.OrderBy(p => p.Id)
                 .Where(c => c.WidgetId == widgetId && c.UserId == userId)

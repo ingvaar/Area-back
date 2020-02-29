@@ -21,7 +21,7 @@ namespace area.Business.Provider
 			return _repository.GetProviders(offset, limit);
         }
 
-        public ProviderModel GetProviderById(int id)
+        public ProviderModel GetProviderById(uint id)
         {
 	        return _repository.GetProviderById(id);
         }

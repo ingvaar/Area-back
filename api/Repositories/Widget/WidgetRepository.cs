@@ -21,9 +21,9 @@ namespace area.Repositories.Widget
 				.ToArray();
         }
 
-        public WidgetModel GetWidgetById(int id)
+        public WidgetModel GetWidgetById(uint id)
         {
-			return id < 0 ? null : _context.Widget.FirstOrDefault(a => a.Id == id);
+			return _context.Widget.FirstOrDefault(a => a.Id == id);
         }
 
         public WidgetModel[] SearchWidgetByName(string name, int offset, int limit)

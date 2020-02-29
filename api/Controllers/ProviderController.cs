@@ -40,7 +40,7 @@ namespace area.Controllers
 		// GET provider/[id]
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public ActionResult<IEnumerable<string>> GetById(int id)
+		public ActionResult<IEnumerable<string>> GetById(uint id)
 		{
 			return Ok(_provider.GetProviderById(id));
 		}

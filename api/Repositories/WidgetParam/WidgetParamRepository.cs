@@ -25,7 +25,7 @@ namespace area.Repositories.WidgetParam
 				.ToArray();
         }
 
-        public WidgetParamModel GetWidgetParamByWidgetId(int widgetId)
+        public WidgetParamModel GetWidgetParamByWidgetId(uint widgetId)
         {
             var id = _widgetRepository.GetWidgetById(widgetId).ParamId;
             return _repository.SingleOrDefault(p => p.Id == id);

@@ -8,9 +8,9 @@ namespace area.Business.Widget
     public interface IWidgetBusinessLogic
     {
         WidgetModel[] GetWidgets(int offset, int limit);
-        WidgetModel GetWidgetById(int id);
-        WidgetParamModel GetWidgetParam(int widgetId);
-        WidgetConfModel[] GetWidgetConf(int widgetId, UserPublicModel user, int offset, int limit);
+        WidgetModel GetWidgetById(uint id);
+        WidgetParamModel GetWidgetParam(uint widgetId);
+        WidgetConfModel[] GetWidgetConf(uint widgetId, UserPublicModel user, int offset, int limit);
         WidgetConfModel AddWidgetConf(int widgetId, UserPublicModel user, WidgetConfCreationModel newConf);
     }
 }
