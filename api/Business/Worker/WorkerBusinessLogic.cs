@@ -42,27 +42,27 @@ namespace area.Business.Worker
             var provider = _providerRepository.GetProviderById(service.ProvId);
             if (provider == null)
                 return null;
-            var (route, method, form) = ParsConf(conf.Conf, provider);
+            var (route, method, form, token) = ParsConf(conf.Conf, provider);
             if (route == null || method == null)
                 return null;
 
             return method switch
             {
-                "get" => _workerRepository.Get(route),
-                "post" => _workerRepository.Post(route, form),
+                "get" => _workerRepository.Get(route, token),
+                "post" => _workerRepository.Post(route, form, token),
                 _ => null
             };
         }
 
-        private (string, string, Dictionary<string, string>) ParsConf(string conf, ProviderModel provider)
+        private (string, string, Dictionary<string, string>, string) ParsConf(string conf, ProviderModel provider)
         {
             var jToken = JsonConvert.DeserializeObject<Dictionary<string, object>>(conf);
 
-            if (!jToken.ContainsKey("data")) return (null, null, null);
+            if (!jToken.ContainsKey("data")) return (null, null, null, null);
             var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(jToken["data"].ToString());
 
             if (!data.ContainsKey("route") || !data.ContainsKey("method"))
-                return (null, null, null);
+                return (null, null, null, null);
 
             // Disabling local assignment warning
             #pragma warning disable S1854
@@ -70,8 +70,11 @@ namespace area.Business.Worker
             data.Remove("route");
             var method = data["method"];
             data.Remove("method");
+            var token = data.ContainsKey("token") ? data["token"] : null;
+            if (token != null)
+                data.Remove("token");
             #pragma warning restore S1854  
-            return (provider.Url + route, method, data);
+            return (provider.Url + route, method, data, token);
         }
     }
 }
