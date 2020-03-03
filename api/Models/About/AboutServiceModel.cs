@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace area.Models.About
@@ -7,6 +8,6 @@ namespace area.Models.About
 		[JsonPropertyName("name")]
 		public string Name { get; set; }
 		[JsonPropertyName("widgets")]
-		public AboutWidgetModel[] Widgets { get; set ;}
+		public IEnumerable<AboutWidgetModel> Widgets { get; set ;}
 	}
 }

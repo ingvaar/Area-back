@@ -5,16 +5,22 @@ using System.Text.Json;
 using area.Contexts;
 using area.Models.About;
 using area.Repositories.Service;
+using area.Repositories.Widget;
+using area.Repositories.WidgetParam;
 
 namespace area.Business.About
 {
     public class AboutBusinessLogic : IAboutBusinessLogic
     {
-		private readonly IServiceRepository _service;
+		private readonly IServiceRepository _serviceRepository;
+		private readonly IWidgetRepository _widgetRepository;
+		private readonly IWidgetParamRepository _widgetParamRepository;
 
 		public AboutBusinessLogic(AreaContext context)
 		{
-			_service = new ServiceRepository(context);
+			_serviceRepository = new ServiceRepository(context);
+			_widgetRepository = new WidgetRepository(context);
+			_widgetParamRepository = new WidgetParamRepository(context);
 		}
 
 		public string About()
@@ -42,8 +48,17 @@ namespace area.Business.About
 
 		private AboutServiceModel[] GetServices()
 		{
-			var services = _service.GetAllServices();
-			return services.Select(service => new AboutServiceModel {Name = service.Name}).ToArray();
+			var servicesEnumerable = _serviceRepository.GetAllServices();
+			return servicesEnumerable.Select(service => new AboutServiceModel
+			{
+				Name = service.Name,
+				Widgets = _widgetRepository.GetWidgetsByServiceId(service.Id, 0, 100)
+					.Select(widget => new AboutWidgetModel
+					{
+						Name = widget.Name,
+						Params = _widgetParamRepository.GetWidgetParamByWidgetId(widget.Id).Param
+					}).ToArray()
+			}).ToArray();
 		}
     }
 }
