@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using area.Contexts;
 using area.Models.Widget;
@@ -36,12 +35,13 @@ namespace area.Repositories.Widget
 				.ToArray();
         }
 
-        public IEnumerable<WidgetModel> GetWidgetsByServiceId(uint id, int offset, int limit)
+        public WidgetModel[] GetWidgetsByServiceId(uint id, int offset, int limit)
         {
 	        return _context.Widget.OrderBy(p => p.Id)
 		        .Where(w => w.ServiceId == id)
 		        .Skip(offset)
-		        .Take(limit);
+		        .Take(limit)
+		        .ToArray();
         }
     }
 }

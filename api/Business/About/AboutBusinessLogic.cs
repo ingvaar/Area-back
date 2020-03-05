@@ -48,17 +48,25 @@ namespace area.Business.About
 
 		private AboutServiceModel[] GetServices()
 		{
-			var servicesEnumerable = _serviceRepository.GetAllServices();
-			return servicesEnumerable.Select(service => new AboutServiceModel
+			var services = _serviceRepository.GetAllServices();
+
+			return services.Select(service => new AboutServiceModel
 			{
 				Name = service.Name,
-				Widgets = _widgetRepository.GetWidgetsByServiceId(service.Id, 0, 100)
-					.Select(widget => new AboutWidgetModel
-					{
-						Name = widget.Name,
-						Params = _widgetParamRepository.GetWidgetParamByWidgetId(widget.Id).Param
-					}).ToArray()
+				Widgets = GetWidgets(service.Id)
 			}).ToArray();
 		}
+
+		private AboutWidgetModel[] GetWidgets(uint serviceId)
+		{
+			var widgets = _widgetRepository.GetWidgetsByServiceId(serviceId, 0, 100);
+
+			return widgets.Select(widget => new AboutWidgetModel
+			{
+				Name = widget.Name,
+				Params = _widgetParamRepository.GetWidgetParamByWidgetId(widget.Id).Param
+			}).ToArray();
+		}
+		
     }
 }

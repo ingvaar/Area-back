@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using area.Models.Widget;
 
 namespace area.Repositories.Widget
@@ -8,6 +7,6 @@ namespace area.Repositories.Widget
         WidgetModel[] GetWidgets(int offset, int limit);
         WidgetModel GetWidgetById(uint id);
         WidgetModel[] SearchWidgetByName(string name, int offset, int limit);
-        IEnumerable<WidgetModel> GetWidgetsByServiceId(uint id, int offset, int limit);
+        WidgetModel[] GetWidgetsByServiceId(uint id, int offset, int limit);
     }
 }
