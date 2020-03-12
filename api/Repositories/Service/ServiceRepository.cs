@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using area.Contexts;
 using area.Models.Service;
@@ -36,7 +35,7 @@ namespace area.Repositories.Service
 				.ToArray();
 		}
 
-		public IEnumerable<ServiceModel> GetAllServices()
+		public ServiceModel[] GetAllServices()
 		{
 			return _context.Service.OrderBy(p => p.Id)
 				.ToArray();

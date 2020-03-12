@@ -35,13 +35,13 @@ namespace area.Repositories.Widget
 				.ToArray();
         }
 
-        public WidgetModel[] GetWidgetsByServiceId(int id, int offset, int limit)
+        public WidgetModel[] GetWidgetsByServiceId(uint id, int offset, int limit)
         {
-			return _context.Widget.OrderBy(p => p.Id)
-                .Where(w => w.ServiceId == id)
-				.Skip(offset)
-				.Take(limit)
-				.ToArray();
+	        return _context.Widget.OrderBy(p => p.Id)
+		        .Where(w => w.ServiceId == id)
+		        .Skip(offset)
+		        .Take(limit)
+		        .ToArray();
         }
     }
 }
