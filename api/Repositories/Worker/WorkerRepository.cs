@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
+
 
 namespace area.Repositories.Worker
 {
@@ -13,9 +15,10 @@ namespace area.Repositories.Worker
             _client = new HttpClient();
         }
         
-        public string Get(string route)
+        public string Get(string route, string token)
         {
             try {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", token);
                 var response = _client.GetStringAsync(route);
 
                 response.Wait();
@@ -25,9 +28,10 @@ namespace area.Repositories.Worker
             }
         }
 
-        public string Post(string route, Dictionary<string, string> form)
+        public string Post(string route, Dictionary<string, string> form, string token)
         {
             try {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", token);
                 var content = new FormUrlEncodedContent(form);
 
                 var response = _client.PostAsync(route, content);
