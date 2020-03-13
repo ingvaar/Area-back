@@ -32,7 +32,7 @@ namespace area.Controllers
                 return Unauthorized();
 
             var data = _workerBusiness.GetData(id, currentUser);
-            return data == null ? (ActionResult<IEnumerable<string>>) BadRequest("{\"error\": \"configuration illformed\"}") : Ok(data);
+            return data == null ? (ActionResult<IEnumerable<string>>) BadRequest("{\"error\": \"configuration ill-formed\"}") : Ok(data);
         }
     }
 }
