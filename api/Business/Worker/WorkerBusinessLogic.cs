@@ -8,6 +8,7 @@ using area.Repositories.Widget;
 using area.Repositories.WidgetConf;
 using area.Repositories.Worker;
 using Newtonsoft.Json;
+using JsonException = System.Text.Json.JsonException;
 
 namespace area.Business.Worker
 {
@@ -56,7 +57,13 @@ namespace area.Business.Worker
 
         private (string, string, Dictionary<string, string>, string) ParsConf(string conf, ProviderModel provider)
         {
-            var jToken = JsonConvert.DeserializeObject<Dictionary<string, object>>(conf);
+            Dictionary<string, object> jToken;
+
+            try {
+                jToken = JsonConvert.DeserializeObject<Dictionary<string, object>>(conf);
+            } catch (JsonException) {
+                return (null, null, null, null);
+            }
 
             if (!jToken.ContainsKey("data")) return (null, null, null, null);
             var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(jToken["data"].ToString());
