@@ -57,16 +57,16 @@ namespace area.Business.Worker
 
         private (string, string, Dictionary<string, string>, string) ParsConf(string conf, ProviderModel provider)
         {
-            Dictionary<string, object> jToken;
-
+            Dictionary<string, string> data;
             try {
-                jToken = JsonConvert.DeserializeObject<Dictionary<string, object>>(conf);
+                var jToken = JsonConvert.DeserializeObject<Dictionary<string, object>>(conf);
+
+                if (!jToken.ContainsKey("data")) return (null, null, null, null);
+                
+                data = JsonConvert.DeserializeObject<Dictionary<string, string>>(jToken["data"].ToString());
             } catch (JsonException) {
                 return (null, null, null, null);
             }
-
-            if (!jToken.ContainsKey("data")) return (null, null, null, null);
-            var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(jToken["data"].ToString());
 
             if (!data.ContainsKey("route") || !data.ContainsKey("method"))
                 return (null, null, null, null);
