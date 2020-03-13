@@ -142,7 +142,7 @@ CREATE TABLE `widget_conf` (
   PRIMARY KEY (`id`),
   KEY `widget_conf_FK` (`widget_id`),
   CONSTRAINT `widget_conf_FK` FOREIGN KEY (`widget_id`) REFERENCES `widget` (`id`),
-  CONSTRAINT `widget_conf_FK_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`)
+  CONSTRAINT `widget_conf_FK_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
