@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using area.Contexts;
 using area.Models.Provider;
@@ -8,7 +9,6 @@ using area.Repositories.Widget;
 using area.Repositories.WidgetConf;
 using area.Repositories.Worker;
 using Newtonsoft.Json;
-using JsonException = System.Text.Json.JsonException;
 
 namespace area.Business.Worker
 {
@@ -64,7 +64,7 @@ namespace area.Business.Worker
                 if (!jToken.ContainsKey("data")) return (null, null, null, null);
                 
                 data = JsonConvert.DeserializeObject<Dictionary<string, string>>(jToken["data"].ToString());
-            } catch (JsonException) {
+            } catch (Exception) {
                 return (null, null, null, null);
             }
 
