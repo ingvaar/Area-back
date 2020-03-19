@@ -52,14 +52,20 @@ namespace area.Business.Widget
 
         public WidgetConfModel AddWidgetConf(int widgetId, UserPublicModel user, WidgetConfCreationModel newConf)
         {
+            var widget = _widgetRepository.GetWidgetById((uint)widgetId);
+            if (widget == null) return null;
+            
             var widgetConf = new WidgetConfModel
             {
                 Conf = newConf.Conf,
                 WidgetId = (uint) widgetId,
                 UserId = user.Id
             };
-            
-	        return _widgetConfRepository.AddNewWidgetConf(widgetConf) == 1 ? _widgetConfRepository.GetLastWidgetConfByUserId(user.Id) : null;
+
+            return _widgetConfRepository.AddNewWidgetConf(widgetConf) == 1
+                ? _widgetConfRepository.GetLastWidgetConfByUserId(user.Id)
+                : null;
+
         }
     }
 }
