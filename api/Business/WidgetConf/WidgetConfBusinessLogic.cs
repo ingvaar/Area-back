@@ -32,7 +32,7 @@ namespace area.Business.WidgetConf
             var target = _widgetConfRepository.GetWidgetConfById(id);
             var toPatch = target;
 
-            if (toPatch.UserId != currentUser.Id)
+            if (toPatch == null || toPatch.UserId != currentUser.Id)
                 return null;
             toPatch.Conf = updateModel.Conf;
             toPatch.UpdatedAt = DateTimeOffset.Now;

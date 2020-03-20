@@ -33,7 +33,7 @@ namespace area.Repositories.WidgetParam
 
         public WidgetParamModel GetWidgetParamById(int id)
         {
-            throw new System.NotImplementedException();
+            return _repository.SingleOrDefault(p => p.Id == id);
         }
     }
 }
