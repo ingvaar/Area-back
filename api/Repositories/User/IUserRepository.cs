@@ -11,7 +11,7 @@ namespace area.Repositories.User
 		int UpdateUser(UserUpdateModel updatedUser, UserModel target);
 		UserPublicModel GetUserByUsername(string username);
 		UserPublicModel GetUserByEmail(string email);
-		UserModel GetUserByCredentials(string username, string password);
+		UserModel GetCompleteUserByUsername(string username);
 		UserPublicModel[] SearchUserByUsername(string username, int offset, int limit);
 		UserPublicModel[] SearchUserByEmail(string email, int offset, int limit);
 	}

@@ -26,7 +26,12 @@ namespace area.Business.User
         
         public UserPublicModel AddNewUser(UserCreationModel newUser)
         {
-	        var user = new UserModel {Email = newUser.Email, Password = newUser.Password, Username = newUser.Username};
+	        var hashedPassword = HashHelper.HashPassword(newUser.Password);
+	        if (!HashHelper.ValidatePassword(newUser.Password, hashedPassword))
+	        {
+		        return null;
+	        }
+	        var user = new UserModel {Email = newUser.Email, Password = hashedPassword, Username = newUser.Username};
 
 	        var (byName, byEmail) = (_repository.GetUserByUsername(newUser.Username), _repository.GetUserByEmail(
 		        newUser.Email));
@@ -92,9 +97,9 @@ namespace area.Business.User
 
         public UserEntity Authenticate(UserAuthModel authUser)
         {
-	        var user = _repository.GetUserByCredentials(authUser.Username, authUser.Password);
+	        var user = _repository.GetCompleteUserByUsername(authUser.Username);
 				
-			if (user == null)
+			if (user == null || !HashHelper.ValidatePassword(authUser.Password, user.Password))
 				return null;
 
 			var userEntity = new UserEntity();
