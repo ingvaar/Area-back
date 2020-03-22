@@ -29,7 +29,7 @@ namespace area.Repositories.WidgetConf
 			return id < 0 ? null : _repository.SingleOrDefault(a => a.Id == id);
         }
 
-        public WidgetConfModel[] GetWidgetConfByUserId(int userId, int offset, int limit)
+        public WidgetConfModel[] GetWidgetConfByUserId(uint userId, int offset, int limit)
         {
 			return _repository.OrderBy(p => p.Id)
                 .Where(c => c.UserId == userId)

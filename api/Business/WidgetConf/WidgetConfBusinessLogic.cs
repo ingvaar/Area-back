@@ -15,11 +15,11 @@ namespace area.Business.WidgetConf
         {
             _widgetConfRepository = new WidgetConfRepository(context);
         }
-        public WidgetConfModel[] GetWidgetConfs(int offset, int limit)
+        public WidgetConfModel[] GetWidgetConfsByUserId(uint userId, int offset, int limit)
         {
             (offset, limit) = RangeHelper.CheckRange(offset, limit, 20);
             
-            return _widgetConfRepository.GetWidgetConfs(offset, limit);
+            return _widgetConfRepository.GetWidgetConfByUserId(userId, offset, limit);
         }
 
         public WidgetConfModel GetWidgetConf(int widgetConfId)
