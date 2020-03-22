@@ -6,7 +6,7 @@ namespace area.Repositories.WidgetConf
     {
         WidgetConfModel[] GetWidgetConfs(int offset, int limit);
         WidgetConfModel GetWidgetConfById(int id);
-        WidgetConfModel[] GetWidgetConfByUserId(int userId, int offset, int limit);
+        WidgetConfModel[] GetWidgetConfByUserId(uint userId, int offset, int limit);
         WidgetConfModel[] GetWidgetConfByWidgetId(int widgetId, int offset, int limit);
         WidgetConfModel[] GetWidgetConfByWidgetUserId(uint widgetId, uint userId, int offset, int limit);
         WidgetConfModel GetLastWidgetConfByUserId(uint userId);

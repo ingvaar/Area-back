@@ -24,12 +24,15 @@ namespace area.Controllers
 		}
 		
 		// GET widget/conf
-		[AllowAnonymous]
 		[HttpGet]
 		public ActionResult<IEnumerable<string>> Get([FromQuery] int offset,
 			[FromQuery] int limit)
 		{
-			return Ok(_widgetConfBusiness.GetWidgetConfs(offset, limit));
+			var currentUser = _userBusiness.GetCurrentUser(User);
+			if (currentUser == null)
+				return Unauthorized();
+			
+			return Ok(_widgetConfBusiness.GetWidgetConfsByUserId(currentUser.Id, offset, limit));
 		}
 		
 		// GET widget/conf/[id]
