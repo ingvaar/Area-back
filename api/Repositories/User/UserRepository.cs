@@ -50,11 +50,10 @@ namespace area.Repositories.User
 			return _context.SaveChanges();
 		}
 
-		public UserModel GetUserByCredentials(string username, string password)
+		public UserModel GetCompleteUserByUsername(string username)
 		{
 			return _context.User
-				.SingleOrDefault(x => x.Username == username
-								&& x.Password == password);
+				.SingleOrDefault(x => x.Username == username);
 		}
 
 		public UserPublicModel[] SearchUserByUsername(string username, int offset, int limit)
